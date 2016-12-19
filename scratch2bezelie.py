@@ -77,7 +77,12 @@ if __name__ == '__main__':
     # Scratch接続のためのインスタンス生成
     rcv = Receiver(bez)
     rsc = scratch.RemoteSensorConnection(rcv.broadcast_handler, rcv.sonsor_update_handler)
-    rsc.connect(host=scratchhost)
+    try:
+        rsc.connect(host=scratchhost)
+    except:
+        print 'Cann not connect Scratch on' + host
+        exit()
+    print 'Connected to Scratch on ' + host
 
     while(True):
         try:
