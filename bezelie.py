@@ -12,12 +12,14 @@ class Control(object):
 
     def __init__(self, address_pca9685=0x40, dutyMax=490, dutyMin=110, dutyCenter=300, steps=1):
 
+        self.address_pca9685 = address_pca9685
         self.headNow = dutyCenter
         self.backNow = dutyCenter
         self.stageNow = dutyCenter
+        self.initPCA9685_()
 
     # Definitions
-    def initPCA9685(self):
+    def initPCA9685_(self):
         bus.write_byte_data(self.address_pca9685, 0x00, 0x00)
         freq = 0.9 * 50
         prescaleval = 25000000.0    # 25MHz
