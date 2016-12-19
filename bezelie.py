@@ -34,6 +34,7 @@ class Control(object):
         bus.write_byte_data(address_pca9685, 0x00, oldmode | 0xa1)
 
     def setTrim(self):
+        pass
 
     def setPCA9685Duty(self, channel, on, off):
         channelpos = 0x6 + 4*channel
