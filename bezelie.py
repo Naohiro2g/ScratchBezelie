@@ -33,7 +33,7 @@ class Control(object):
         trim = 0      # Stage servo adjustment
         max = 490    # AntiClockWise limit
         min = 110    # Clocwise limit
-        self.stageNow = self.moveServo_(0, degree, adj, max, min, speed, self.stageNow)
+        self.stageNow = self.moveServo_(0, degree, trim, max, min, speed, self.stageNow)
 
     def moveCenter (self):
         self.moveHead (0)
