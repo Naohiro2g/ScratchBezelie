@@ -44,8 +44,13 @@ class Control(object):
         self.moveBack (0)
         self.moveStage (0)
 
-    def setTrim(self):
-        pass
+    def setTrim(self, trimHead=None, trimBack=None, trimStage=None):
+        if trimHead is not None:
+            self.trimHead = trimHead;
+        if trimBack is not None:
+            self.trimBack = trimBack;
+        if trimStage is not None:
+            self.trimStage = trimStage;
 
     # Definitions
     def initPCA9685_(self):
