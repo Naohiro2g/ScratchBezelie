@@ -27,7 +27,7 @@ class Receiver(object):
 
 if __name__ == '__main__':
 
-    scratchhost = "127.0.0.1"
+    scratchhost = '127.0.0.1'
 
     # 引数処理
     param = sys.argv
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     # Scratch接続のためのインスタンス生成
     rcv = Receiver(bez)
     rsc = scratch.RemoteSensorConnection(rcv.broadcast_handler, rcv.sonsor_update_handler)
-    rsc.connect(scratchhost)
+    rsc.connect(host=scratchhost)
 
     while(True):
         try:
