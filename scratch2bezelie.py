@@ -32,3 +32,10 @@ if __name__ == '__main__':
     # Scratch接続のためのインスタンス生成
     rcv = Receiver(bez)
     rsc = scratch.RemoteSensorConnection(rcv.broadcast_handler, rcv.sonsor_update_handler)
+
+    while(True):
+        try:
+            time.sleep(1)
+        except KeyboardInterrupt:
+            print " Interrupted by Keyboard"
+            exit()
