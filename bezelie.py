@@ -16,41 +16,41 @@ class Control(object):
         self.dutyMin = dutyMin
         self.dutyCenter = dutyCenter
         self.steps = steps
+        self.headTrim = 0
+        self.backTrim = 0
+        self.stageTrim = 0
         self.headNow = dutyCenter
         self.backNow = dutyCenter
         self.stageNow = dutyCenter
         self.initPCA9685_()
 
     def moveHead(self, degree, speed=1):
-        trim = 0       # Head servo adjustment
         max = 490     # Downward limit
         min = 110     # Upward limit
-        self.headNow = self.moveServo_(2, degree, self.trimHead, max, min, speed, self.headNow)
+        self.headNow = self.moveServo_(2, degree, self.headTrim, max, min, speed, self.headNow)
 
     def moveBack(self, degree, speed=1):
-        trim = 0       # Back servo adjustment
         max = 490     # AntiClockwise limit
         min = 110     # Clockwise limit
-        self.backNow = self.moveServo_(1, degree, self.trimBack, max, min, speed, self.backNow)
+        self.backNow = self.moveServo_(1, degree, self.backTrim, max, min, speed, self.backNow)
 
     def moveStage(self, degree, speed=1):
-        trim = 0      # Stage servo adjustment
         max = 490    # AntiClockWise limit
         min = 110    # Clocwise limit
-        self.stageNow = self.moveServo_(0, degree, self.trimStage, max, min, speed, self.stageNow)
+        self.stageNow = self.moveServo_(0, degree, self.stageTrim, max, min, speed, self.stageNow)
 
     def moveCenter (self):
         self.moveHead (0)
         self.moveBack (0)
         self.moveStage (0)
 
-    def setTrim(self, trimHead=None, trimBack=None, trimStage=None):
-        if trimHead is not None:
-            self.trimHead = trimHead;
-        if trimBack is not None:
-            self.trimBack = trimBack;
-        if trimStage is not None:
-            self.trimStage = trimStage;
+    def setTrim(self, head=None, back=None, stage=None):
+        if head is not None:
+            self.headTrim = head;
+        if back is not None:
+            self.backTrim = back;
+        if stage is not None:
+            self.stageTrim = stage;
 
     # Definitions
     def initPCA9685_(self):
