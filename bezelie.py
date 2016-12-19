@@ -7,9 +7,8 @@ import math
 import scratch
 
 bus = smbus.SMBus(1)
-address_pca9685 = 0x40 # If you connect other I2C devices, you might change this number.
 
-class Control(object)
+class Control(object):
 
     def __init__(self, address_pca9685=0x40, dutyMax=490, dutyMin=110, dutyCenter=300, steps=1):
 
