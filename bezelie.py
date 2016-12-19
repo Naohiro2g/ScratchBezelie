@@ -12,6 +12,10 @@ class Control(object):
 
     def __init__(self, address_pca9685=0x40, dutyMax=490, dutyMin=110, dutyCenter=300, steps=1):
         self.address_pca9685 = address_pca9685
+        self.dutyMax = dutyMax
+        self.dutyMin = dutyMin
+        self.dutyCenter = dutyCenter
+        self.steps = steps
         self.headNow = dutyCenter
         self.backNow = dutyCenter
         self.stageNow = dutyCenter
@@ -68,7 +72,7 @@ class Control(object):
             pass
 
     def moveServo_(self, id, degree, trim, max, min, speed, now):
-        dst = (dutyMin - dutyMax) * (degree + trim + 90) / 180 + dutyMax
+        dst = (self.dutyMin - self.dutyMax) * (degree + trim + 90) / 180 + self.dutyMax
         if speed == 0:
             self.setPCA9685Duty_(id, 0, dst)
             sleep(0.001 * math.fabs(dst - now))
@@ -79,13 +83,13 @@ class Control(object):
             dst = min
         while (now != dst):
             if now < dst:
-                now += steps
+                now += self.steps
                 if now > dst:
                     now = dst
             else:
-                now -= steps
+                now -= self.steps
                 if now < dst:
                     now = dst
             self.setPCA9685Duty_(id, 0, now)
-            sleep(0.004 * steps *(speed))
+            sleep(0.004 * self.steps *(speed))
         return (now)
