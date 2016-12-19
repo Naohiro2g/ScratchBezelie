@@ -80,7 +80,7 @@ if __name__ == '__main__':
     try:
         rsc.connect(host=scratchhost)
     except:
-        print 'Cann not connect Scratch on' + scratchhost
+        print 'Cann not connect Scratch on ' + scratchhost
         exit()
     print 'Connected to Scratch on ' + scratchhost
 
