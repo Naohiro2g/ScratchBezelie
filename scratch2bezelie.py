@@ -6,6 +6,7 @@ This software is released under the MIT License.
 http://opensource.org/licenses/mit-license.php
 '''
 
+import time
 import threading
 import scratch
 import bezelie
