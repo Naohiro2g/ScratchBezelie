@@ -21,7 +21,7 @@ class Receiver(object):
     def broadcast_handler(self, message):
         print('[receive] broadcast:', message)
         command_data = message.split(':')
-        if len(command_data) > 2:
+        if len(command_data) > 1:
             if command_data[0] == u'move':
                 if len(command_data) == 3:
                     if command_data[1] == u'head':
@@ -50,7 +50,7 @@ class Receiver(object):
         for name, value in sensor_data.items():
             print('[receive] sensor-update:', name, value)
             command_data = name.split(':')
-            if len(command_data) > 2:
+            if len(command_data) > 1:
                 if command_data[0] == u'bezelie':
                     if command_data[1] == u'head':
                         self.bezelie.moveHead(value)
