@@ -17,6 +17,32 @@ class Control(object):
         self.stageNow = dutyCenter
         self.initPCA9685_()
 
+    def moveHead(self, degree, speed=1):
+        trim = 0       # Head servo adjustment
+        max = 490     # Downward limit
+        min = 110     # Upward limit
+        self.headNow = self.moveServo_(2, degree, trim, max, min, speed, self.headNow)
+
+    def moveBack(self, degree, speed=1):
+        trim = 0       # Back servo adjustment
+        max = 490     # AntiClockwise limit
+        min = 110     # Clockwise limit
+        self.backNow = self.moveServo_(1, degree, trim, max, min, speed, self.backNow)
+
+    def moveStage(self, degree, speed=1):
+        trim = 0      # Stage servo adjustment
+        max = 490    # AntiClockWise limit
+        min = 110    # Clocwise limit
+        self.stageNow = self.moveServo_(0, degree, adj, max, min, speed, self.stageNow)
+
+    def moveCenter (self):
+        self.moveHead (0)
+        self.moveBack (0)
+        self.moveStage (0)
+
+    def setTrim(self):
+        pass
+
     # Definitions
     def initPCA9685_(self):
         bus.write_byte_data(self.address_pca9685, 0x00, 0x00)
@@ -34,20 +60,17 @@ class Control(object):
         sleep(0.005)
         bus.write_byte_data(self.address_pca9685, 0x00, oldmode | 0xa1)
 
-    def setTrim(self):
-        pass
-
-    def setPCA9685Duty(self, channel, on, off):
+    def setPCA9685Duty_(self, channel, on, off):
         channelpos = 0x6 + 4*channel
         try:
             bus.write_i2c_block_data(self.address_pca9685, channelpos, [on&0xFF, on>>8, off&0xFF, off>>8])
         except IOError:
             pass
 
-    def moveServo (self, id, degree, trim, max, min, speed, now):
+    def moveServo_(self, id, degree, trim, max, min, speed, now):
         dst = (dutyMin - dutyMax) * (degree + trim + 90) / 180 + dutyMax
         if speed == 0:
-            setPCA9685Duty(id, 0, dst)
+            self.setPCA9685Duty_(id, 0, dst)
             sleep(0.001 * math.fabs(dst - now))
             now = dst
         if dst > max:
@@ -63,29 +86,6 @@ class Control(object):
                 now -= steps
                 if now < dst:
                     now = dst
-            setPCA9685Duty(id, 0, now)
+            self.setPCA9685Duty_(id, 0, now)
             sleep(0.004 * steps *(speed))
         return (now)
-
-    def moveCenter (self):
-        moveHead (0)
-        moveBack (0)
-        moveStage (0)
-
-    def moveHead (self, degree, speed=1):
-        trim = 0       # Head servo adjustment
-        max = 490     # Downward limit
-        min = 110     # Upward limit
-        self.headNow = moveServo (2, degree, trim, max, min, speed, self.headNow)
-
-    def moveBack (self, degree, speed=1):
-        trim = 0       # Back servo adjustment
-        max = 490     # AntiClockwise limit
-        min = 110     # Clockwise limit
-        self.backNow = moveServo (1, degree, trim, max, min, speed, self.backNow)
-
-    def moveStage (self, degree, speed=1):
-        trim = 0      # Stage servo adjustment
-        max = 490    # AntiClockWise limit
-        min = 110    # Clocwise limit
-        self.stageNow = moveServo (0, degree, adj, max, min, speed, self.stageNow)
