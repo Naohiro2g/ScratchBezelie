@@ -51,7 +51,7 @@ class Receiver(object):
             print('[receive] sensor-update:', name, value)
             command_data = name.split(':')
             if len(command_data) > 2:
-                if command_data[0] == 'bezelie':
+                if command_data[0] == u'bezelie':
                     if command_data[1] == u'head':
                         self.bezelie.moveHead(value)
                     if command_data[1] == u'back':
