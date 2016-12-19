@@ -25,19 +25,19 @@ class Control(object):
         trim = 0       # Head servo adjustment
         max = 490     # Downward limit
         min = 110     # Upward limit
-        self.headNow = self.moveServo_(2, degree, trim, max, min, speed, self.headNow)
+        self.headNow = self.moveServo_(2, degree, self.trimHead, max, min, speed, self.headNow)
 
     def moveBack(self, degree, speed=1):
         trim = 0       # Back servo adjustment
         max = 490     # AntiClockwise limit
         min = 110     # Clockwise limit
-        self.backNow = self.moveServo_(1, degree, trim, max, min, speed, self.backNow)
+        self.backNow = self.moveServo_(1, degree, self.trimBack, max, min, speed, self.backNow)
 
     def moveStage(self, degree, speed=1):
         trim = 0      # Stage servo adjustment
         max = 490    # AntiClockWise limit
         min = 110    # Clocwise limit
-        self.stageNow = self.moveServo_(0, degree, trim, max, min, speed, self.stageNow)
+        self.stageNow = self.moveServo_(0, degree, self.trimStage, max, min, speed, self.stageNow)
 
     def moveCenter (self):
         self.moveHead (0)
