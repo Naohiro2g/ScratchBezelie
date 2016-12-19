@@ -11,7 +11,6 @@ bus = smbus.SMBus(1)
 class Control(object):
 
     def __init__(self, address_pca9685=0x40, dutyMax=490, dutyMin=110, dutyCenter=300, steps=1):
-
         self.address_pca9685 = address_pca9685
         self.headNow = dutyCenter
         self.backNow = dutyCenter
@@ -27,13 +26,13 @@ class Control(object):
         prescaleval /= float(freq)
         prescaleval -= 1.0
         prescale = int(math.floor(prescaleval + 0.5))
-        oldmode = bus.read_byte_data(address_pca9685, 0x00)
+        oldmode = bus.read_byte_data(self.address_pca9685, 0x00)
         newmode = (oldmode & 0x7F) | 0x10
-        bus.write_byte_data(address_pca9685, 0x00, newmode)
-        bus.write_byte_data(address_pca9685, 0xFE, prescale)
-        bus.write_byte_data(address_pca9685, 0x00, oldmode)
+        bus.write_byte_data(self.address_pca9685, 0x00, newmode)
+        bus.write_byte_data(self.address_pca9685, 0xFE, prescale)
+        bus.write_byte_data(self.address_pca9685, 0x00, oldmode)
         sleep(0.005)
-        bus.write_byte_data(address_pca9685, 0x00, oldmode | 0xa1)
+        bus.write_byte_data(self.address_pca9685, 0x00, oldmode | 0xa1)
 
     def setTrim(self):
         pass
@@ -41,7 +40,7 @@ class Control(object):
     def setPCA9685Duty(self, channel, on, off):
         channelpos = 0x6 + 4*channel
         try:
-            bus.write_i2c_block_data(address_pca9685, channelpos, [on&0xFF, on>>8, off&0xFF, off>>8])
+            bus.write_i2c_block_data(self.address_pca9685, channelpos, [on&0xFF, on>>8, off&0xFF, off>>8])
         except IOError:
             pass
 
