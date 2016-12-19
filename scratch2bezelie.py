@@ -8,7 +8,7 @@ http://opensource.org/licenses/mit-license.php
 
 import threading
 import scratch
-import bezerie
+import bezelie
 
 class Receiver(object):
     '''Scratchからの受信データの処理
